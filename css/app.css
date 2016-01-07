@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: #333;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+body {
+  margin: 0;
+}
+
+header h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 3rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  flex: 1 0 auto;
+  background: #fbfbfb;
+  margin-bottom: 5rem;
+}
+
+@media screen and (min-width: 960px) {
+  main {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  section {
+    flex: 0 1 100%;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 2rem 0;
+}
+
+.weather {
+  margin: 1rem;
+}
+
+.weather__day {
+  color: #00697D;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.weather__state {
+  margin: 0 auto 5rem;
+  width: 5rem;
+}
+
+.weather__temp {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 1rem 0;
+}
+
+.bus {
+  margin: 1em;
+}
+
+.bus__line {
+  color: #00697D;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.bus__time {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 1rem 0;
+
+}
+
+.bus__towards {
+  margin: 0 0 5rem;
+}

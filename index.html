@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="minimum-scale=1, maximum-scale=1, initial-scale=1, user-scalable=no">
+    <title> Home </title>
+    <link href="css/app.css" rel="stylesheet">
+  </head>
+  <body ng-controller="ViewController as ctrl">
+    <header>
+      <h1> Today </h1>
+    </header>
+    <main>
+      <section>
+        <h2> Tunnel Avenue </h2>
+        <div class="bus" ng-repeat="bus in ::ctrl.busFrom | orderBy: 'expectedArrival'">
+          <div class="bus__line">{{::bus.lineName }}</div>
+          <div class="bus__time" ng-pluralize count="::bus.expectedArrival | decimalPlaces: 0" when="ctrl.pluralize"></div>
+          <div class="bus__towards"> Towards <strong>{{::bus.destinationName }}</strong></div>
+        </div>
+      </section>
+      <section>
+        <h2> Greenwich </h2>
+        <div class="weather" ng-repeat="weather in ::ctrl.weather.consolidated_weather">
+          <div class="weather__day">{{::weather.applicable_date | dayFromDate }}</div>
+          <div class="weather__temp">{{::weather.the_temp | decimalPlaces: 0 }}°C</div>
+          <img class="weather__state" ng-src="https://www.metaweather.com/static/img/weather/{{::weather.weather_state_abbr }}.svg" alt="{{ weather.weather_state_name }}" title="{{ weather.weather_state_name }}">
+        </div>
+      </section>
+      <section>
+        <h2> North Greenwich </h2>
+        <div class="bus" ng-repeat="bus in ::ctrl.busTo | orderBy: 'expectedArrival'">
+          <div class="bus__line">{{::bus.lineName }}</div>
+          <div class="bus__time" ng-pluralize count="::bus.expectedArrival | decimalPlaces: 0" when="ctrl.pluralize"></div>
+          <div class="bus__towards"> Towards <strong>{{::bus.destinationName }}</strong></div>
+        </div>
+      </section>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
