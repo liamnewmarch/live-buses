@@ -1,28 +1,50 @@
+'use strict';
+
+/**
+ * Angular module
+ * @type {object}
+ */
 var app = angular.module('app', []);
 
-app.constant('weekDays', [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]);
 
-app.service('weather', function($http) {
-  return $http.get('js/data.js').then(function(res) {
+/**
+ * Weather service factory.
+ * @param {object} $http
+ * @returns {object}
+ */
+app.factory('weather', function($http) {
+  var url = 'http://cors.io?u=https://www.metaweather.com/api/location/44418/';
+  return $http.get(url).then(function(res) {
     return res.data;
   });
 });
 
-app.service('tfl', function($http, $q) {
+
+/**
+ * TfL service factory.
+ * @param {object} $http
+ * @param {object} $q
+ * @returns {object}
+ */
+app.factory('tfl', function($http, $q) {
   function countdown(expected) {
     var difference = new Date(expected) - new Date();
     return difference / 6E4;
   }
 
-  function getArrivals() {
+  function getArrival(id) {
+    return $http.get('https://api.tfl.gov.uk/StopPoint/' + id + '/arrivals').then(function(res) {
+      angular.forEach(res.data, function(data) {
+        data.expectedArrival = countdown(data.expectedArrival);
+      });
+      return res.data;
+    })
+  }
+
+  function getArrivals(ids) {
     var promises = [];
-    angular.forEach(arguments, function(id) {
-      promises.push($http.get('https://api.tfl.gov.uk/StopPoint/' + id + '/arrivals').then(function(res) {
-        angular.forEach(res.data, function(data) {
-          data.expectedArrival = countdown(data.expectedArrival);
-        });
-        return res.data;
-      }));
+    angular.forEach(ids, function(id) {
+      promises.push(getArrival(id));
     });
     return $q.all(promises).then(function(resolveds) {
       var arrivals = [];
@@ -38,11 +60,18 @@ app.service('tfl', function($http, $q) {
   }
 
   return {
-    from: getArrivals('490013840R'),
-    to: getArrivals('490010374B', '490010374C')
+    from: getArrivals(['490013840R']),
+    to: getArrivals(['490010374B', '490010374C'])
   };
 });
 
+
+/**
+ * View controller.
+ * @constructor
+ * @param {function} weather
+ * @param {function} tfl
+ */
 app.controller('ViewController', function(weather, tfl) {
   var ctrl = this;
   weather.then(function(data) {
@@ -54,17 +83,30 @@ app.controller('ViewController', function(weather, tfl) {
   tfl.to.then(function(data) {
     ctrl.busTo = data;
   });
-  ctrl.pluralize = { 0: 'Due', 1: '1 min', 'other': '{} mins'};
+  ctrl.pluralize = {0: 'Due', 1: '1 min', 'other': '{} mins'};
 });
 
-app.filter('dayFromDate', function(weekDays) {
+
+/**
+ * Filter to get day of the week from date.
+ * @constructor
+ * @param {function} $filter
+ * @returns {function}
+ */
+app.filter('dayFromDate', function($filter) {
+  var filter = $filter('date');
   return function(dateString) {
     var date = new Date(dateString);
-    var day = date.getUTCDay();
-    return weekDays[day];
+    return filter(date, 'EEEE');
   };
 });
 
+
+/**
+ * Filter to limit decimal places, without adding missing digits
+ * @constructor
+ * @returns {function}
+ */
 app.filter('decimalPlaces', function() {
   return function(number, decimalPlaces) {
     var pow = Math.pow(10, decimalPlaces);
