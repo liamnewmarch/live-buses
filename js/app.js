@@ -113,3 +113,8 @@ app.filter('decimalPlaces', function() {
     return Math.round(number * pow) / pow;
   };
 });
+
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
