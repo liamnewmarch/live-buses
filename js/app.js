@@ -13,7 +13,7 @@ var app = angular.module('app', []);
  * @returns {object}
  */
 app.factory('weather', function($http) {
-  var url = 'https://cors.io?u=https://www.metaweather.com/api/location/44418/';
+  var url = 'https://www.metaweather.com/api/location/44418/';
   return $http.get(url).then(function(res) {
     return res.data;
   });
