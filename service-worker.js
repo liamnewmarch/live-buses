@@ -26,12 +26,8 @@ self.addEventListener('install', function(event) {
  * Fetch
  */
 self.addEventListener('fetch', function(event) {
-  // Fetch options
-  var options = {
-    mode: 'no-cors' // Disable CORS protection
-  };
   // Try network
-  event.respondWith(fetch(event.request, options).then(function(response) {
+  event.respondWith(fetch(event.request).then(function(response) {
     var clone = response.clone()
     caches.open(version + 'pages').then(function(cache) {
       cache.put(event.request, clone);
