@@ -72,11 +72,8 @@ app.factory('tfl', function($http, $q) {
  * @param {function} weather
  * @param {function} tfl
  */
-app.controller('ViewController', function(weather, tfl) {
+app.controller('ViewController', function(tfl) {
   var ctrl = this;
-  weather.then(function(data) {
-    ctrl.weather = data;
-  });
   tfl.from.then(function(data) {
     ctrl.busFrom = data;
   });
