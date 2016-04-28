@@ -20,14 +20,6 @@
         </div>
       </section>
       <section>
-        <h2> Greenwich </h2>
-        <div class="weather" ng-repeat="weather in ::ctrl.weather.consolidated_weather">
-          <div class="weather__day">{{::weather.applicable_date | dayFromDate }}</div>
-          <div class="weather__temp">{{::weather.the_temp | decimalPlaces: 0 }}°C</div>
-          <img class="weather__state" ng-src="https://www.metaweather.com/static/img/weather/{{::weather.weather_state_abbr }}.svg" alt="{{ weather.weather_state_name }}" title="{{ weather.weather_state_name }}">
-        </div>
-      </section>
-      <section>
         <h2> North Greenwich </h2>
         <div class="bus" ng-repeat="bus in ::ctrl.busTo | orderBy: 'expectedArrival'">
           <div class="bus__line">{{::bus.lineName }}</div>
