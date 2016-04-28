@@ -8,19 +8,6 @@ var app = angular.module('app', []);
 
 
 /**
- * Weather service factory.
- * @param {object} $http
- * @returns {object}
- */
-app.factory('weather', function($http) {
-  var url = 'https://www.metaweather.com/api/location/44418/';
-  return $http.get(url).then(function(res) {
-    return res.data;
-  });
-});
-
-
-/**
  * TfL service factory.
  * @param {object} $http
  * @param {object} $q
@@ -69,7 +56,6 @@ app.factory('tfl', function($http, $q) {
 /**
  * View controller.
  * @constructor
- * @param {function} weather
  * @param {function} tfl
  */
 app.controller('ViewController', function(tfl) {
