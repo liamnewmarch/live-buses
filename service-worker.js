@@ -13,9 +13,9 @@ self.addEventListener('install', function(event) {
   // Pre-populate cache
   event.waitUntil(caches.open(version + 'fundamentals').then(function(cache) {
     return cache.addAll([
-      '/',
-      '/css/app.css',
-      '/js/app.js',
+      '',
+      'css/app.css',
+      'js/app.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js'
     ]);
   }));
